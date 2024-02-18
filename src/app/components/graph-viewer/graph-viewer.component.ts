@@ -16,6 +16,10 @@ export class GraphViewerComponent implements OnInit {
   ref = '';
   path = '';
 
+  LINK_OWNER = 0
+  LINK_REPO = 1
+  LINK_PATH = 2
+
   ngOnInit(): void {
     const re = /github\/(?<owner>[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38})\/(?<repo>[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38})\/(?<ref>.+)\/(?<path>.github\/.+\.yml)/;
 
@@ -45,5 +49,24 @@ export class GraphViewerComponent implements OnInit {
       return "http://about:blank";
     }
     return `https://app.actionforge.dev/github/${this.owner}/${this.repo}/${this.ref}/${this.path}`;
+  }
+
+  onOpenLinkInGithub(level?: number): void {
+    if (this.error || !this.owner || !this.repo || !this.ref || !this.path) {
+      return;
+    }
+
+    switch (level) {
+      case this.LINK_OWNER:
+        window.open(`https://www.github.com/${this.owner}`, '_blank');
+        break;
+      case this.LINK_REPO:
+        window.open(`https://www.github.com/${this.owner}/${this.repo}`, '_blank');
+        break;
+      case this.LINK_PATH:
+      default:
+        window.open(`https://www.github.com/${this.owner}/${this.repo}/blob/${this.ref}/${this.path}`, '_blank');
+        break;
+    }
   }
 }
