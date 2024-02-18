@@ -51,22 +51,19 @@ export class GraphViewerComponent implements OnInit {
     return `https://app.actionforge.dev/github/${this.owner}/${this.repo}/${this.ref}/${this.path}`;
   }
 
-  onOpenLinkInGithub(level?: number): void {
+  onOpenLinkInGithub(level: number): string {
     if (this.error || !this.owner || !this.repo || !this.ref || !this.path) {
-      return;
+      return 'about:blank';
     }
 
     switch (level) {
       case this.LINK_OWNER:
-        window.open(`https://www.github.com/${this.owner}`, '_blank');
-        break;
+        return `https://www.github.com/${this.owner}`;
       case this.LINK_REPO:
-        window.open(`https://www.github.com/${this.owner}/${this.repo}`, '_blank');
-        break;
+        return `https://www.github.com/${this.owner}/${this.repo}`;
       case this.LINK_PATH:
       default:
-        window.open(`https://www.github.com/${this.owner}/${this.repo}/blob/${this.ref}/${this.path}`, '_blank');
-        break;
+        return `https://www.github.com/${this.owner}/${this.repo}/blob/${this.ref}/${this.path}`;
     }
   }
 }
