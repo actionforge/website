@@ -1,11 +1,5 @@
 import { Component, OnInit, inject } from "@angular/core";
-import { ActivatedRoute, Params, Router } from "@angular/router";
-
-
-function isValid(component: string, regex: RegExp): boolean {
-  return regex.test(component);
-}
-
+import { ActivatedRoute, Router } from "@angular/router";
 
 @Component({
   selector: 'app-graph-viewer',
@@ -20,35 +14,56 @@ export class GraphViewerComponent implements OnInit {
   owner = '';
   repo = '';
   ref = '';
-  filename = '';
+  path = '';
+
+  LINK_OWNER = 0
+  LINK_REPO = 1
+  LINK_PATH = 2
 
   ngOnInit(): void {
-    this.route.params.subscribe((params: Params) => {
-      const owner = params['owner'];
-      const repo = params['repo'];
-      const ref = params['ref'];
-      const filename = params['filename'];
+    const re = /github\/(?<owner>[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38})\/(?<repo>[a-z\d](?:[a-z\d]|-(?=[a-z\d])){0,38})\/(?<ref>.+)\/(?<path>.github\/.+\.yml)/;
 
-      if (isValid(owner, /^[a-zA-Z0-9][a-zA-Z0-9-_]+$/) &&
-        isValid(repo, /^[a-zA-Z0-9][a-zA-Z0-9-_]+$/) &&
-        isValid(ref, /^[^\s./][a-zA-Z0-9-_./]+[^/]$/) &&
-        isValid(filename, /^[a-zA-Z0-9-_./]+$/)) {
+    try {
+      const components = re.exec(location.pathname);
+
+      if (components) {
+        const { owner, repo, ref, path } = components.groups as { [key: string]: string };
+        if (!owner || !repo || !ref || !path) {
+          throw new Error('invalid url');
+        }
+
         this.owner = owner;
         this.repo = repo;
         this.ref = ref;
-        this.filename = filename;
+        this.path = path;
         this.error = '';
-      } else {
-        this.error = 'invalid graph url';
-        void this.router.navigate(['/404'], { skipLocationChange: true });
       }
-    });
+    } catch (e) {
+      this.error = 'invalid graph url';
+      void this.router.navigate(['/404'], { skipLocationChange: true });
+    }
   }
 
   getGraphUrl(): string {
-    if (this.error || !this.owner || !this.repo || !this.ref || !this.filename) {
+    if (this.error || !this.owner || !this.repo || !this.ref || !this.path) {
       return "http://about:blank";
     }
-    return `https://app.actionforge.dev/github/${this.owner}/${this.repo}/${this.ref}/.github/workflows/graphs/${this.filename}`;
+    return `https://app.actionforge.dev/github/${this.owner}/${this.repo}/${this.ref}/${this.path}`;
+  }
+
+  onOpenLinkInGithub(level: number): string {
+    if (this.error || !this.owner || !this.repo || !this.ref || !this.path) {
+      return 'about:blank';
+    }
+
+    switch (level) {
+      case this.LINK_OWNER:
+        return `https://www.github.com/${this.owner}`;
+      case this.LINK_REPO:
+        return `https://www.github.com/${this.owner}/${this.repo}`;
+      case this.LINK_PATH:
+      default:
+        return `https://www.github.com/${this.owner}/${this.repo}/blob/${this.ref}/${this.path}`;
+    }
   }
 }

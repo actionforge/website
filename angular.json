@@ -32,7 +32,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/styles/vscode.polyfill.scss"
             ],
             "scripts": []
           },
@@ -46,7 +47,8 @@
               "vendorChunk": true,
               "buildOptimizer": true,
               "styles": [
-                "src/styles.scss"
+                "src/styles.scss",
+                "src/styles/vscode.polyfill.scss"
               ],
               "budgets": [
                 {
@@ -78,7 +80,8 @@
               "vendorChunk": false,
               "buildOptimizer": false,
               "styles": [
-                "src/styles.scss"
+                "src/styles.scss",
+                "src/styles/vscode.polyfill.scss"
               ],
               "fileReplacements": [
                 {
@@ -121,7 +124,8 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/styles/vscode.polyfill.scss"
             ],
             "scripts": []
           }

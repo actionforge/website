@@ -1,3 +1,7 @@
 :host {
-    @apply h-full w-full;
+    @apply h-full w-full whitespace-nowrap;
+}
+
+:host(.path) span {
+    @apply truncate;
 }
