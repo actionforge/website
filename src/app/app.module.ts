@@ -8,6 +8,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CdkMenu, CdkMenuItem, CdkMenuTrigger } from '@angular/cdk/menu';
 import { HIGHLIGHT_OPTIONS, HighlightModule } from 'ngx-highlightjs';
 
+provideVSCodeDesignSystem().register(
+  // vsCodeButton(),
+  // TODO (Seb): I'm lazy, fix this
+  allComponents
+);
+
 import {
   octTelescope,
   octThreeBars,
@@ -81,6 +87,7 @@ import { AppButtonComponent } from './components/app-button/app-button.component
 import { FooterComponent } from './components/footer/footer.component';
 import { GraphViewerComponent } from './components/graph-viewer/graph-viewer.component';
 import { Page404Component } from './components/page-404/page-404.componment';
+import { allComponents, provideVSCodeDesignSystem } from '@vscode/webview-ui-toolkit';
 
 
 @NgModule({

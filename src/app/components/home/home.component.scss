@@ -10,7 +10,7 @@
 }
 
 .cid-bg-gradient {
-    @apply bg-gradient-to-b from-transparent via-white to-white dark:via-black dark:to-black;
+    @apply bg-gradient-to-b from-transparent via-white to-white dark:via-black dark:to-vscode-bg;
 }
 
 .cid-image-handle {
@@ -25,4 +25,8 @@
 
 img-comparison-slider {
     outline: unset; // remove outline as default set by tailwind
+}
+
+.vscode-logo {
+    filter: drop-shadow(0 1px 10px rgb(0 0 0)) drop-shadow(0 1px 1px rgb(0 0 0 / 0.06));
 }
