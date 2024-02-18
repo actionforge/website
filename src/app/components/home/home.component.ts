@@ -209,6 +209,11 @@ jobs:
     this.emailInput.nativeElement.focus();
   }
 
+  onClickOpenMarketplace(_$event: Event): void {
+    window.open('https://marketplace.visualstudio.com/items?itemName=actionforge.actionforge', '_blank');
+    this.onClickScrollToSubscribeToNewsletter(_$event);
+  }
+
   onClickGitHub(_$event: Event): void {
     window.open('https://www.github.com/orgs/actionforge/repositories', '_blank');
   }
@@ -233,7 +238,7 @@ jobs:
     this.imgUi.nativeElement.style.transform = `perspective(1000px) rotate3d(1, 0, 0, ${Math.max(0, imgDeg)}deg)`;
   }
 
-  async onClickJoinWaitlist(_event: MouseEvent, email: string): Promise<void> {
+  async onClickJoinNewsletter(_event: MouseEvent, email: string): Promise<void> {
     try {
       await this.http.post(`${environment.gatewayUrl}/api/v1/newsletter/signup`, { email }, {
         responseType: 'text',
@@ -242,7 +247,7 @@ jobs:
 
       window.localStorage.setItem("newsletter-email", email); // if set, users signed up for newsletter
       this.joined = true;
-      this.ns.showNotification(NotificationType.Success, "Thanks for joining the waitlist!");
+      this.ns.showNotification(NotificationType.Success, "Thanks for joining!");
 
     } catch (err) {
       this.ns.showNotification(NotificationType.Error, getErrorMessage(err));
